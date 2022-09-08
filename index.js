@@ -18,24 +18,15 @@ function operation() {
     ]).then((answer) => {
         const action = answer['action']
 
-        if(action === 'Create Account') {
-            promptCreateAccount()
-        } else if (action === 'Check Balance') {
-            getAccountBalance()
-
-        } else if (action === 'Deposit') {
-            deposit()
-
-        } else if (action === 'Withdraw') {
-            withdraw()
-
-        } else if (action === 'Transfer') {
-            transfer()
-
-        } else if (action === 'Exit') {
-            console.log(chalk.bgBlue.black('Thank you for using Accounts!\n'))
-            process.exit()
-        } 
+        const validChoices = {
+            'Create Account': promptCreateAccount,
+            'Check Balance': getAccountBalance,
+            'Deposit': deposit,
+            'Withdraw': withdraw,
+            'Transfer': transfer,
+            'Exit': exit
+        }
+        validChoices[action]()
         
     }).catch((err) => console.log(err))
 }
@@ -347,6 +338,11 @@ function removeFundsAmount(accountName, amount) {
     console.log(chalk.green(`${amount}R$ has successfully been withdraw from your account!\n`))
     operation()
 
+}
+
+function exit() {
+    console.log(chalk.bgBlue.black('Thank you for using Accounts!\n'))
+    process.exit()
 }
 
 function transferFunds(accountName1, accountName2, amount) {
